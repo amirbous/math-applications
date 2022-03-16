@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
     int b = to_int(argv[2]);
     int eulerExtended[1][5];
    
-    printf("input both numbers: ");
     printf("\t gcd (%d, %d) = %d\n", a, b, euler_extended(0, eulerExtended, b, a));
     printf("-------------------------------\n");
     return 0;
