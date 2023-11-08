@@ -1,50 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void outputResult (int p, int result[0][5]) {
-    printf("-------------------------------\n");
-    printf("\tEULER EXTENDED ALGORITHM\n");
-    printf("-------------------------------\n");
-    printf("\ta : b | k | ap : bt\n");
-    printf("-------------------------------\n");
-    for (int i = 0; i < p + 1; i++) printf("\t%d : %d | %d | %d : %d\n", result[i][0], result[i][1], result[i][2], result[i][3], result[i][4]);
-    printf("-------------------------------\n");
 
+struct Row {
+	unsigned int a;
+	unsigned int b;
+	int k;
+	int alpha;
+	int beta;
+    struct Row *prev;
+	struct Row *next;
 
+};
+void initRow(struct Row *row, int a, int b){
+    row->a = a;
+    row->b = b;
 }
-void eulerAlphaBeta(int n, int result[0][5]) {
-    int p = n;
-    result[n][3] = 1;
-    result[n][4] = 0;
 
-    while ( n > 0) {
-        result[n-1][3] = result[n][4] - result[n][3] * result[n-1][2];
-        result[n-1][4] = result[n][3];
-        --n;
+
+
+void eulerAlphaBeta(struct Row *row) {
+    
+    if (row->next == NULL){
+        row->alpha = 1;
+        row->beta = 0;
+    } 
+    else {
+        row->alpha = row->prev->beta - row->prev->alpha * row->k;
     }
-    outputResult(p, result);
-}
-int euler_extended(int n, int result[0][5], int a, int b) {
-    result[n][0] = a;
-    result[n][1] = b;
-    result[n][2] = b / a;
-    if (b % a == 0) {
-        eulerAlphaBeta(n, result);
-        return a;
+    printf("%d | %d || %d || %d || %d\n", row->a, row->b, row->k, row->alpha, row->beta);
+    if (row->prev == NULL) return;
+    else {
+        eulerAlphaBeta(row->prev);
     }
-    return euler_extended(++n, result, b % a, a);
+ 
 }
+int euler_extended(struct Row *row) {
+	row->k = row->a / row->b;
+    printf("%d\n", row->k);
+    if (row->b % row->a == 0) {
+        eulerAlphaBeta(row);
+        return row->a;
+    }
+    struct Row next = {row->b % row->a, row->a, 0, 0, 0, row, NULL};
+    return euler_extended(&next);
+}
+
 int to_int(const char *s)
 {
     return atoi(s);
 }
+
 int main(int argc, char *argv[]) {
 
-    int a = to_int(argv[1]);
-    int b = to_int(argv[2]);
-    int eulerExtended[1][5];
-   
-    printf("\t gcd (%d, %d) = %d\n", a, b, euler_extended(0, eulerExtended, b, a));
-    printf("-------------------------------\n");
+    unsigned int a = to_int(argv[1]);
+    unsigned int b = to_int(argv[2]);
+
+    struct Row head = {a, b, 0, 0, 0,NULL, NULL};
+    printf("\tgcd (%d, %d) = %d\n", a, b, euler_extended(&head));
+
     return 0;
 }
