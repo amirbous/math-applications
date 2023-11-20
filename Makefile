@@ -5,4 +5,4 @@ euler_extended_algorithm:
 clean:
 	rm a.out
 test:
-	./a.out 5472 9703
+	./a.out 60123 32401

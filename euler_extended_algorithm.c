@@ -17,6 +17,12 @@ void initRow(struct Row *row, int a, int b){
     row->b = b;
 }
 
+void printResults(struct Row *row) {
+	
+    	printf("%d | %d || %d || %d || %d\n", row->a, row->b, row->k, row->alpha, row->beta);
+	if (row-> next == NULL) return;
+	printResults(row->next);
+}
 
 
 void eulerAlphaBeta(struct Row *row) {
@@ -30,9 +36,7 @@ void eulerAlphaBeta(struct Row *row) {
     }
     printf("%d | %d || %d || %d || %d\n", row->a, row->b, row->k, row->alpha, row->beta);
     if (row->prev == NULL) return;
-    else {
         eulerAlphaBeta(row->prev);
-    }
  
 }
 int euler_extended(struct Row *row) {
@@ -58,6 +62,6 @@ int main(int argc, char *argv[]) {
     int b = to_int(argv[2]);
     struct Row head = {a, b, 0, 0, 0,NULL, NULL};
     printf("\tgcd (%d, %d) = %d\n", a, b, euler_extended(&head));
-
+    printResults(&head);
     return 0;
 }
