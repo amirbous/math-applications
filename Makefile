@@ -1,8 +1,15 @@
+TARGET=taylor
+OBJECTS = src/help.c src/main.c src/modes.c src/utils.c
+CC=gcc
+CFLAGS=
+LDFLAGS=
 
-euler_extended_algorithm:
-	gcc euler_extended_algorithm.c -o a.out
-
+all:
+	$(CC) $(OBJECTS)  -o $(TARGET)
+	
 clean:
-	rm a.out
-test:
-	./a.out 60123 32401
+	rm -r taylor
+
+exe:
+
+	./$(TARGET)
