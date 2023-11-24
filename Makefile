@@ -1,5 +1,5 @@
-TARGET=taylor
-OBJECTS = src/help.c src/main.c src/modes.c src/utils.c
+TARGET=a.out
+OBJECTS = src/main.c
 CC=gcc
 CFLAGS=
 LDFLAGS=
