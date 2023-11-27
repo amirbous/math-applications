@@ -1,5 +1,5 @@
 TARGET=a.out
-OBJECTS = src/main.c
+OBJECTS = src/main.c src/help.c
 CC=gcc
 CFLAGS=
 LDFLAGS=

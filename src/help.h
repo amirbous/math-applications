@@ -1,0 +1,3 @@
+void printHelp();
+
+void printWelcome();
