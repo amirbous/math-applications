@@ -8,7 +8,7 @@
 
 #define BUFFER_SIZE 1024
 
-typedef struct Linked_command Linked_command;
+typedef struct LinkedCommand LinkedCommand;
 
 int main(){
 	char* buffer = malloc(BUFFER_SIZE);
@@ -19,8 +19,9 @@ int main(){
 		printf(">");
 		fgets (buffer, BUFFER_SIZE, stdin);
 
-		Linked_command *command;
-		command->single_word = malloc(strlen(buffer)* sizeof(char));
+		LinkedCommand *command = (LinkedCommand*)malloc(sizeof(LinkedCommand));
+		LinkedCommand *commandlist = (LinkedCommand*)malloc(sizeof(LinkedCommand));
+		commandlist->next_word = NULL;
 		strcpy(command->single_word, buffer);
 		if (strcmp(command->single_word, "exit\n") == 0) return 0;
 		i = 0;
@@ -29,6 +30,8 @@ int main(){
 			printf("%c", command->single_word[i]);	
     			i++;
 		}
+		BuildLinkedCommand(commandlist, buffer, 0);
+		PrintCommand(commandlist);
 
 	}while(1);
 	  

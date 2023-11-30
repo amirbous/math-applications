@@ -1,8 +1,10 @@
-struct Linked_command {
+struct LinkedCommand {
 
-    char* single_word;
-    struct Linked_command *next_word;
+    char single_word[20];
+    struct LinkedCommand *next_word;
 
 };
 
-struct Linked_command * parseLine(char *line);
+void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting_index);
+
+void PrintCommand(struct LinkedCommand *wordlist);
