@@ -20,14 +20,14 @@ int main(){
 		fgets (buffer, BUFFER_SIZE, stdin);
 
 		LinkedCommand *command = (LinkedCommand*)malloc(sizeof(LinkedCommand));
-		LinkedCommand *commandlist = (LinkedCommand*)malloc(sizeof(LinkedCommand));
-		commandlist = NULL;
+		
 		strcpy(command->single_word, buffer);
 		if (strcmp(command->single_word, "exit\n") == 0) return 0;
-		i = 0;
+		LinkedCommand *commandlist = BuildLinkedCommand(buffer);
+	
+		if (strcmp(first(commandlist), "mode") == 0) printf("current mode: DEFAULT\n");
 
-		BuildLinkedCommand(commandlist, buffer, 0);
-		PrintCommand(commandlist);
+
 		
 	}while(1);
 	  

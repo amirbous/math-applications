@@ -5,7 +5,7 @@
 
 struct LinkedCommand
 {
-    char single_word[20];
+    char single_word[30];
     struct LinkedCommand *next_word;
 };
 
@@ -21,7 +21,6 @@ int SizeCommand(struct LinkedCommand *wordlist)
 
 void PrintCommand(struct LinkedCommand *wordlist)
 {
-    printf("printing struct\n");
     if (wordlist == NULL)
         return;
     int j = 0;
@@ -36,26 +35,27 @@ void PrintCommand(struct LinkedCommand *wordlist)
     PrintCommand(wordlist->next_word);
 }
 
-void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting_index)
+struct LinkedCommand *BuildLinkedCommand(char *line)
 {
 
-    int j, i = starting_index, construct_index = 0;
+    int j, i = 0, construct_index = 0;
     int true_index;
-    bool first = false;
+    LinkedCommand *wordlist = NULL, *tmp = NULL;
+
     while (line[i] != '\0')
     {
+        
         if (line[i] == ' ' || line[i] == '\n')
         {
             if (construct_index == 0)
             {
                 if (line[i] == '\n')
                 {
-                    return;
+                    return wordlist;
                 }
                 else
                 {
                     i++;
-                    continue;
                 }
             }
             else
@@ -63,27 +63,22 @@ void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting
                 if (wordlist == NULL)
                 {
                     wordlist = (LinkedCommand *)malloc(sizeof(LinkedCommand));
-                    first = true;
-                    for (j = 0; j < construct_index; j++)
-                    {
-                        true_index = starting_index + j;
-                        wordlist->single_word[j] = line[true_index];
-                    }
-                    wordlist->single_word[construct_index + 1] = '\0';
+                    tmp = wordlist;
                 }
                 else
                 {
-                    wordlist->next_word = (LinkedCommand *)malloc(sizeof(LinkedCommand));
-                    for (j = 0; j < construct_index; j++)
-                    {
-                        true_index = starting_index + j;
-                        wordlist->next_word->single_word[j] = line[true_index];
-                    }
-                    wordlist->next_word->single_word[construct_index + 1] = '\0';
+                    tmp->next_word = (LinkedCommand *)malloc(sizeof(LinkedCommand));
+                    tmp = tmp->next_word;
                 }
-
-                break;
+                for (j = 0; j < construct_index; j++)
+                {
+                    true_index = j + i - construct_index;
+                    tmp->single_word[j] = line[true_index];
+                }
+                tmp->single_word[construct_index + 1] = '\0';
             }
+            construct_index = 0;
+            i += construct_index + 1;
         }
         else
         {
@@ -91,8 +86,14 @@ void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting
             i++;
         }
     }
-    if (first)
-        BuildLinkedCommand(wordlist, line, starting_index + construct_index + 1);
-    else
-        BuildLinkedCommand(wordlist->next_word, line, starting_index + construct_index + 1);
+    return wordlist;
+}
+
+struct LinkedCommand *InitCommand(char *line)
+{
+    return BuildLinkedCommand(line);
+}
+
+char * first(struct LinkedCommand * wordlist) {
+    return wordlist->single_word;
 }

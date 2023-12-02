@@ -1,12 +1,14 @@
 struct LinkedCommand {
 
-    char single_word[20];
+    char single_word[30];
     struct LinkedCommand *next_word;
 
 };
 
-void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting_index);
+struct LinkedCommand * BuildLinkedCommand(char *line);
 
 void PrintCommand(struct LinkedCommand *wordlist);
 
 int SizeCommand(struct LinkedCommand *wordlist);
+
+char * first(struct LinkedCommand *wordlist);
