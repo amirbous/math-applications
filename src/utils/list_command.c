@@ -5,62 +5,94 @@
 
 struct LinkedCommand
 {
-
     char single_word[20];
     struct LinkedCommand *next_word;
 };
 
 typedef struct LinkedCommand LinkedCommand;
 
-void PrintCommand(struct LinkedCommand *wordlist){
-    int j = 0;
-    while (wordlist->single_word[j] != '\0') {
+int SizeCommand(struct LinkedCommand *wordlist)
+{
 
+    if (wordlist == NULL)
+        return 1;
+    return 1 + SizeCommand(wordlist->next_word);
+}
+
+void PrintCommand(struct LinkedCommand *wordlist)
+{
+    printf("printing struct\n");
+    if (wordlist == NULL)
+        return;
+    int j = 0;
+    printf("TOKEN-> ");
+    while (wordlist->single_word[j] != '\0')
+    {
         printf("%c", wordlist->single_word[j]);
         j++;
     }
     printf("\n");
-    if (wordlist->next_word == NULL) return;
-    PrintCommand(wordlist->next_word);
 
+    PrintCommand(wordlist->next_word);
 }
 
 void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting_index)
 {
-    wordlist->next_word = NULL;
+
     int j, i = starting_index, construct_index = 0;
     int true_index;
-
+    bool first = false;
     while (line[i] != '\0')
     {
         if (line[i] == ' ' || line[i] == '\n')
         {
             if (construct_index == 0)
             {
-                i++;
-            }
-            else{ 
-                for (j = 0; j < construct_index; j++)
+                if (line[i] == '\n')
                 {
-                    true_index = starting_index + j;
-                    wordlist->single_word[j] = line[true_index];
+                    return;
                 }
-                wordlist->single_word[starting_index + i + 1] = '\0';
-                i++;
+                else
+                {
+                    i++;
+                    continue;
+                }
+            }
+            else
+            {
+                if (wordlist == NULL)
+                {
+                    wordlist = (LinkedCommand *)malloc(sizeof(LinkedCommand));
+                    first = true;
+                    for (j = 0; j < construct_index; j++)
+                    {
+                        true_index = starting_index + j;
+                        wordlist->single_word[j] = line[true_index];
+                    }
+                    wordlist->single_word[construct_index + 1] = '\0';
+                }
+                else
+                {
+                    wordlist->next_word = (LinkedCommand *)malloc(sizeof(LinkedCommand));
+                    for (j = 0; j < construct_index; j++)
+                    {
+                        true_index = starting_index + j;
+                        wordlist->next_word->single_word[j] = line[true_index];
+                    }
+                    wordlist->next_word->single_word[construct_index + 1] = '\0';
+                }
+
                 break;
             }
         }
         else
         {
-
             construct_index++;
+            i++;
         }
-
-        i++;
     }
-    if (construct_index == 0)
-        return;
-    LinkedCommand *next = (LinkedCommand *)malloc(sizeof(LinkedCommand));
-    wordlist->next_word = next;
-    BuildLinkedCommand(next, line, starting_index + i);
+    if (first)
+        BuildLinkedCommand(wordlist, line, starting_index + construct_index + 1);
+    else
+        BuildLinkedCommand(wordlist->next_word, line, starting_index + construct_index + 1);
 }

@@ -21,18 +21,14 @@ int main(){
 
 		LinkedCommand *command = (LinkedCommand*)malloc(sizeof(LinkedCommand));
 		LinkedCommand *commandlist = (LinkedCommand*)malloc(sizeof(LinkedCommand));
-		commandlist->next_word = NULL;
+		commandlist = NULL;
 		strcpy(command->single_word, buffer);
 		if (strcmp(command->single_word, "exit\n") == 0) return 0;
 		i = 0;
 
-		while (command->single_word[i] != '\0') {
-			printf("%c", command->single_word[i]);	
-    			i++;
-		}
 		BuildLinkedCommand(commandlist, buffer, 0);
 		PrintCommand(commandlist);
-
+		
 	}while(1);
 	  
 return 0;

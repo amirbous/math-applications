@@ -8,3 +8,5 @@ struct LinkedCommand {
 void BuildLinkedCommand(struct LinkedCommand *wordlist, char *line, int starting_index);
 
 void PrintCommand(struct LinkedCommand *wordlist);
+
+int SizeCommand(struct LinkedCommand *wordlist);
