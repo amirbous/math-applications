@@ -5,6 +5,7 @@ struct LinkedCommand {
 
 };
 
+char *getWord(struct LinkedCommand * wordlist, int index);
 struct LinkedCommand * BuildLinkedCommand(char *line);
 
 void PrintCommand(struct LinkedCommand *wordlist);

@@ -11,11 +11,31 @@ struct LinkedCommand
 
 typedef struct LinkedCommand LinkedCommand;
 
+char *getWord(struct LinkedCommand * wordlist, int index){
+
+    int i = 0;
+    LinkedCommand * tmp = wordlist;
+    if (wordlist == NULL) return "";
+    
+    else 
+    {
+        while (i < index && tmp != NULL) {
+        tmp = tmp->next_word;
+        i++;
+    }
+    }
+    if (tmp == NULL) return "";
+    return tmp->single_word;
+
+
+
+}
+
 int SizeCommand(struct LinkedCommand *wordlist)
 {
 
     if (wordlist == NULL)
-        return 1;
+        return 0;
     return 1 + SizeCommand(wordlist->next_word);
 }
 
@@ -95,5 +115,6 @@ struct LinkedCommand *InitCommand(char *line)
 }
 
 char * first(struct LinkedCommand * wordlist) {
-    return wordlist->single_word;
+    
+    return wordlist == NULL ? "" : wordlist->single_word;;
 }
