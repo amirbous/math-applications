@@ -34,18 +34,13 @@ int main(){
 			break;
 
 		default:
-
 			break;
 		}
 		printf(">");
 		fgets (buffer, BUFFER_SIZE, stdin);
 
-		LinkedCommand *command = (LinkedCommand*)malloc(sizeof(LinkedCommand));
-		
-		strcpy(command->single_word, buffer);
-		if (strcmp(command->single_word, "exit\n") == 0) return 0;
 		LinkedCommand *commandlist = BuildLinkedCommand(buffer);
-
+		if (strcmp(first(commandlist), "exit") == 0 && SizeCommand(commandlist) == 1) return 0;
 		if (strcmp(first(commandlist), "mode") == 0) {
 
 			if (SizeCommand(commandlist) < 2) {
