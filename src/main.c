@@ -6,6 +6,8 @@
 #include "utils/help.h"
 #include "utils/list_command.h"
 
+#include <readline/readline.h>
+#include <readline/history.h>
 #define BUFFER_SIZE 1024
 
 typedef struct LinkedCommand LinkedCommand;
@@ -37,9 +39,11 @@ int main(){
 			break;
 		}
 		printf(">");
-		fgets (buffer, BUFFER_SIZE, stdin);
-
-		LinkedCommand *commandlist = BuildLinkedCommand(buffer);
+    buffer = readline("");
+    
+    LinkedCommand *commandlist = BuildLinkedCommand(buffer);
+	//PrintCommand(commandlist);
+	printf("%d\n", SizeCommand(commandlist));
 		if (strcmp(first(commandlist), "exit") == 0 && SizeCommand(commandlist) == 1) return 0;
 		if (strcmp(first(commandlist), "mode") == 0) {
 
@@ -51,7 +55,7 @@ int main(){
 			}
 
 		}
-
+    free(buffer);
 
 	}while(1);
 	  

@@ -44,7 +44,7 @@ void PrintCommand(struct LinkedCommand *wordlist)
     if (wordlist == NULL)
         return;
     int j = 0;
-    printf("TOKEN-> ");
+    printf("TOKEN->");
     while (wordlist->single_word[j] != '\0')
     {
         printf("%c", wordlist->single_word[j]);
@@ -64,23 +64,46 @@ struct LinkedCommand *BuildLinkedCommand(char *line)
 
     while (line[i] != '\0')
     {
-        
-        if (line[i] == ' ' || line[i] == '\n')
+        if (line[i] == ' ')
         {
             if (construct_index == 0)
             {
-                if (line[i] == '\n')
-                {
-                    return wordlist;
-                }
-                else
-                {
+                
                     i++;
-                }
             }
             else
             {
                 if (wordlist == NULL)
+                {
+                    wordlist = (LinkedCommand *)malloc(sizeof(LinkedCommand));
+                    tmp = wordlist;
+                }
+                else
+                {
+                    printf("rourour");
+                    tmp->next_word = (LinkedCommand *)malloc(sizeof(LinkedCommand));
+                    tmp = tmp->next_word;
+                }
+                for (j = 0; j < construct_index; j++)
+                {
+                    true_index = i - construct_index + j;
+                    
+                    tmp->single_word[j] = line[true_index];
+                    
+                }
+                tmp->single_word[construct_index] = '\0';
+            }
+            construct_index = 0;
+            i += construct_index + 1;
+        }
+        else
+        {
+            construct_index++;
+            i++;
+        }
+    }
+    if (construct_index != 0) {
+        if (wordlist == NULL)
                 {
                     wordlist = (LinkedCommand *)malloc(sizeof(LinkedCommand));
                     tmp = wordlist;
@@ -92,29 +115,18 @@ struct LinkedCommand *BuildLinkedCommand(char *line)
                 }
                 for (j = 0; j < construct_index; j++)
                 {
-                    true_index = j + i - construct_index;
+                    true_index = i - construct_index + j;
+                    
                     tmp->single_word[j] = line[true_index];
+                    
                 }
-                tmp->single_word[construct_index + 1] = '\0';
-            }
-            construct_index = 0;
-            i += construct_index + 1;
-        }
-        else
-        {
-            construct_index++;
-            i++;
-        }
+                tmp->single_word[construct_index] = '\0';
     }
     return wordlist;
 }
 
-struct LinkedCommand *InitCommand(char *line)
-{
-    return BuildLinkedCommand(line);
-}
 
 char * first(struct LinkedCommand * wordlist) {
     
-    return wordlist == NULL ? "" : wordlist->single_word;;
+    return wordlist == NULL ? "" : wordlist->single_word;
 }

@@ -1,11 +1,11 @@
 TARGET=a.out
 OBJECTS = src/main.c src/utils/help.c src/utils/list_command.c
 CC=gcc
-CFLAGS=
+CFLAGS= -lreadline
 LDFLAGS=
 
 all:
-	$(CC) $(OBJECTS)  -o $(TARGET)
+	$(CC) $(OBJECTS) $(CFLAGS) -o $(TARGET) 
 	
 clean:
 	rm -r taylor
